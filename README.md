@@ -511,7 +511,7 @@ Generics should always be used for all the classes that support them (eg. NSArra
 
 ## Nullable identificators
 
-Nullable identificators (`nonnull`, `nullable`) should be used for arguments only in public methods and for both public and private properties. For methods, it should be written before the argument type. For properties, it should be written as the last identificator.
+Nullable identificators (`nonnull`, `nullable`) should be used in the same places as Generics. For methods, it should be written before the argument type. For properties, it should be written as the last identificator.
 
 Delegates, which are `weak`, will always be `nullable`.
 
@@ -532,9 +532,10 @@ Delegates, which are `weak`, will always be `nullable`.
 
 ## Protocols
 
+*definiti inainte de clasa daca nu e nevoie de acea clasa la arg*
 Protocols can be defined either in a separate file or in an existing class header file.
 If defined in an existing header class, the protocol declaration will be before the class interface, and the definition will be after the class interface.
-Methods in the protocol will be prefixed with the protocol name, including the class as a parameter or not.
+Methods in the protocol will be prefixed with the class name, including the class as a parameter or not.
 
 **Preferred:**
 
@@ -560,7 +561,7 @@ Methods in the protocol will be prefixed with the protocol name, including the c
 
 Objective-C uses `YES` and `NO`.  Therefore `true` and `false` should only be used for CoreFoundation, C or C++ code.  Since `nil` resolves to `NO` it is unnecessary to compare it in conditions. Never compare something directly to `YES`, because `YES` is defined to 1 and a `BOOL` can be up to 8 bits.
 
-This allows for more consistency across files and greater visual clarity.
+This allows for more consistency across files and greater visual clarity. *folosirea enforce-urilor*
 
 **Preferred:**
 
@@ -657,7 +658,7 @@ Where class constructor methods are used, these should always return type of 'in
 
 ```objc
 @interface Airplane
-+ (instancetype)airplaneWithType:(RWTAirplaneType)type;
++ (nonnull instancetype)airplaneWithType:(RWTAirplaneType)type;
 @end
 ```
 
@@ -701,7 +702,9 @@ When coding with conditionals, the left hand margin of the code should be the "g
 
 ```objc
 - (void)someMethod {
-  if (![someOther boolValue]) { return; }
+  if (![someOther boolValue]) { 
+   return; 
+  }
 
   //Do something important
 }
