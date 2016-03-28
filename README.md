@@ -358,6 +358,7 @@ NSNumber *buildingStreetNumber = [NSNumber numberWithInteger:10018];
 ## Constants
 
 Constants are preferred over in-line string literals or numbers, as they allow for easy reproduction of commonly used variables and can be quickly changed without the need for find and replace. Constants should be declared as `static` constants and not `#define`s unless explicitly being used as a macro.
+For objects that can't be defined as constants because the `initializer element is not a compile time constant`, we should define the object only as static and initialize it in the `+ (void)initialize` method using a `dispatch_once` block.
 
 **Preferred:**
 
@@ -365,6 +366,22 @@ Constants are preferred over in-line string literals or numbers, as they allow f
 static NSString * const RWTAboutViewControllerCompanyName = @"RayWenderlich.com";
 
 static CGFloat const RWTImageThumbnailHeight = 50.0;
+```
+
+```objc
+static NSDictionary<NSNumber *, UIColor *>* kColorForStatesDictionary;
+
++ (void)initialize
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        kColorForStatesDictionary = @{
+                                      @(RCAStepStateCurrent) : kColorCurrent,
+                                      @(RCAStepStateActive) : kColorActive,
+                                      @(RCAStepStateInactive) : kColorInactive
+                                      };
+    });
+}
 ```
 
 **Not Preferred:**
