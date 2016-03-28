@@ -23,6 +23,7 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Enumerated Types](#enumerated-types)
 * [Case Statements](#case-statements)
 * [Private Properties](#private-properties)
+* [IBActions](#ibactions)
 * [IBOutlets](#iboutlets)
 * [Generics](#generics)
 * [Nullable identificators](#nullable-identificators)
@@ -481,7 +482,11 @@ Private properties should be declared in class extensions (anonymous categories)
 
 ## IBOutlets
 
-IBOutlets will always be in the .h file as strong ivars.
+IBOutlets will always be in the .h file as strong ivars, not properties.
+
+## IBActions
+
+IBActions will always be only in the .m file and will have the `sender` argument only if it's used in the method. It will not be called programatically. If the same functionality is needed, it will pe extracted into a method that will be called from the IBAction.
 
 ## Generics
 
