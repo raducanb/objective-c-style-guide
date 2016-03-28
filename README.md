@@ -506,7 +506,9 @@ Generics should always be used for all the classes that support them (eg. NSArra
 
 ## Nullable identificators
 
-Nullable identificators (nonnull, nullable) should be used for arguments only in public methods and for both public and private properties. For methods, it should be written before the argument type. For properties, it should be written as the last identificator.
+Nullable identificators (`nonnull`, `nullable`) should be used for arguments only in public methods and for both public and private properties. For methods, it should be written before the argument type. For properties, it should be written as the last identificator.
+
+Delegates, which are `weak`, will always be `nullable`.
 
 **Preferred:**
 
@@ -532,15 +534,14 @@ Methods in the protocol will be prefixed with the protocol name, including the c
 **Preferred:**
 
 ```objc
-@protocol barProtocol;
+@protocol fooProtocol;
 
-@interface bar;
+@interface foo;
 @end;
 
-@protocol foo<NSObject>
+@protocol fooProtocol<NSObject>
 
-- (void)fooWillDoThis:(nullable id)this;
-
+- (void)fooDidDoThis:(nullable id)this;
 
 @end
 ```
