@@ -536,7 +536,12 @@ Methods in the protocol will be prefixed with the protocol name, including the c
 ```objc
 @protocol fooProtocol;
 
-@interface foo;
+@interface foo {
+ IBOutlet UILabel *label;
+}
+
+- (void)setupWithBar:(nullable id)bar;
+
 @end;
 
 @protocol fooProtocol<NSObject>
