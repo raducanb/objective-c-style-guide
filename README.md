@@ -45,26 +45,25 @@ Here are some of the documents from Apple that informed the style guide. If some
 
 Use `#pragma mark -` to categorize methods in functional groupings and protocol/delegate implementations following this general structure. Pragma marks names should be terms that are widely known; for example: Lifecycle, IBActions, Custom setters, Custom getters etc. If we delimit want to delimit a protocol implementation, it should be named exactly as the protocol; for example: UITableViewDataSource, NSCopying etc. If methods are overriden, they should be marked with the class name that contains the overriden method; for example: NSObject for "description" method.
 
+Lifecycle methods should be in the calling order. Private methods can also be separated by functionality pragma marks (eg. `#pragma mark - Requests`).
+
 ```objc
 #pragma mark - Lifecycle
 
++ (void)initialize;
 - (instancetype)init {}
-- (void)dealloc {}
 - (void)viewDidLoad {}
 - (void)viewWillAppear:(BOOL)animated {}
 - (void)didReceiveMemoryWarning {}
+- (void)dealloc {}
 
 #pragma mark - Custom Setters
 
 - (void)setCustomProperty:(id)value {}
 
-#pragma mark - Custom getters
+#pragma mark - Custom Getters
 
 - (id)customProperty {}
-
-#pragma mark - IBActions
-
-- (IBAction)submitData:(id)sender {}
 
 #pragma mark - Public
 
@@ -85,6 +84,11 @@ Use `#pragma mark -` to categorize methods in functional groupings and protocol/
 #pragma mark - NSObject
 
 - (NSString *)description {}
+
+#pragma mark - IBActions
+
+- (IBAction)submitData:(id)sender {}
+
 ```
 
 ## Spacing
