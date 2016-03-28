@@ -482,15 +482,15 @@ Private properties should be declared in class extensions (anonymous categories)
 
 ## IBOutlets
 
-IBOutlets will always be in the .h file as strong ivars, not properties.
+IBOutlets will always be in the .m file as strong properties. Should not be mixed, IBOutlets first.
 
 ## IBActions
 
-IBActions will always be only in the .m file and will have the `sender` argument only if it's used in the method. It will not be called programatically. If the same functionality is needed, it will pe extracted into a method that will be called from the IBAction.
+IBActions will always be only in the .m file. It will not be called programatically. If the same functionality is needed, it will pe extracted into a method that will be called from the IBAction.
 
 ## Generics
 
-Generics should always be used for all the classes that support them (eg. NSArray, NSDictionary, NSSet etc.), both when defined as properties or as method arguments. As for identation, there should be a space between the class type and the pointer. There shouldn't be any spaces between the class and the generics idetificator.
+Generics should always be used for all the classes that support them (eg. NSArray, NSDictionary, NSSet etc.), both when defined as properties or as method arguments. As for identation, there should be a space between the class type and the pointer. There shouldn't be any spaces between the class and the generics idetificator.*metode publice .h si .m; metode private doar daca e nevoie; proprietati oriunde.*
 
 **Preferred:**
 
