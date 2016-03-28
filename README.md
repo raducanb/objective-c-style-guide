@@ -1,19 +1,3 @@
-# The official raywenderlich.com Objective-C style guide.
-
-This style guide outlines the coding conventions for raywenderlich.com.
-
-## Introduction
-
-The reason we made this style guide was so that we could keep the code in our books, tutorials, and starter kits nice and consistent - even though we have many different authors working on the books.
-
-This style guide is different from other Objective-C style guides you may see, because the focus is centered on readability for print and the web. Many of the decisions were made with an eye toward conserving space for print, easy legibility, and tutorial writing.
-
-## Credits
-
-The creation of this style guide was a collaborative effort from various raywenderlich.com team members under the direction of Nicholas Waynik.  The team includes: [Soheil Moayedi Azarpour](https://github.com/moayes), [Ricardo Rendon Cepeda](https://github.com/ricardo-rendoncepeda), [Tony Dahbura](https://github.com/tdahbura), [Colin Eberhardt](https://github.com/ColinEberhardt), [Matt Galloway](https://github.com/mattjgalloway), [Greg Heo](https://github.com/gregheo), [Matthijs Hollemans](https://github.com/hollance), [Christopher LaPollo](https://github.com/elephantronic), [Saul Mora](https://github.com/casademora), [Andy Pereira](https://github.com/macandyp), [Mic Pringle](https://github.com/micpringle), [Pietro Rea](https://github.com/pietrorea), [Cesare Rocchi](https://github.com/funkyboy), [Marin Todorov](https://github.com/icanzilb), [Nicholas Waynik](https://github.com/ndubbs), and [Ray Wenderlich](https://github.com/raywenderlich)
-
-We would like to thank the creators of the [New York Times](https://github.com/NYTimes/objective-c-style-guide) and [Robots & Pencils'](https://github.com/RobotsAndPencils/objective-c-style-guide) Objective-C Style Guides.  These two style guides provided a solid starting point for this guide to be created and based upon.
-
 ## Background
 
 Here are some of the documents from Apple that informed the style guide. If something isn't mentioned here, it's probably covered in great detail in one of these:
@@ -25,7 +9,6 @@ Here are some of the documents from Apple that informed the style guide. If some
 
 ## Table of Contents
 
-* [Language](#language)
 * [Code Organization](#code-organization)
 * [Spacing](#spacing)
 * [Comments](#comments)
@@ -40,6 +23,10 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Enumerated Types](#enumerated-types)
 * [Case Statements](#case-statements)
 * [Private Properties](#private-properties)
+* [IBOutlets](#iboutlets)
+* [Generics](#generics)
+* [Nullable identificators](#nullable-identificators)
+* [Protocols](#protocols)
 * [Booleans](#booleans)
 * [Conditionals](#conditionals)
   * [Ternary Operator](#ternary-operator)
@@ -50,28 +37,12 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Error handling](#error-handling)
 * [Singletons](#singletons)
 * [Line Breaks](#line-breaks)
-* [Smiley Face](#smiley-face)
 * [Xcode Project](#xcode-project)
-
-
-## Language
-
-US English should be used.
-
-**Preferred:**
-```objc
-UIColor *myColor = [UIColor whiteColor];
-```
-
-**Not Preferred:**
-```objc
-UIColor *myColour = [UIColor whiteColor];
-```
 
 
 ## Code Organization
 
-Use `#pragma mark -` to categorize methods in functional groupings and protocol/delegate implementations following this general structure.
+Use `#pragma mark -` to categorize methods in functional groupings and protocol/delegate implementations following this general structure. Pragma marks names should be terms that are widely known; for example: Lifecycle, IBActions, Custom setters, Custom getters etc. If we delimit want to delimit a protocol implementation, it should be named exactly as the protocol; for example: UITableViewDataSource, NSCopying etc. If methods are overriden, they should be marked with the class name that contains the overriden method; for example: NSObject for "description" method.
 
 ```objc
 #pragma mark - Lifecycle
@@ -82,9 +53,12 @@ Use `#pragma mark -` to categorize methods in functional groupings and protocol/
 - (void)viewWillAppear:(BOOL)animated {}
 - (void)didReceiveMemoryWarning {}
 
-#pragma mark - Custom Accessors
+#pragma mark - Custom Setters
 
 - (void)setCustomProperty:(id)value {}
+
+#pragma mark - Custom getters
+
 - (id)customProperty {}
 
 #pragma mark - IBActions
@@ -99,7 +73,6 @@ Use `#pragma mark -` to categorize methods in functional groupings and protocol/
 
 - (void)privateMethod {}
 
-#pragma mark - Protocol conformance
 #pragma mark - UITextFieldDelegate
 #pragma mark - UITableViewDataSource
 #pragma mark - UITableViewDelegate
@@ -145,6 +118,16 @@ else {
 **Preferred:**
 
 ```objc
+[self foo:bar bar:foo];
+
+// has >= three arguments
+[self foo:bar
+      bar:foo
+      ham:spam
+      hem:spam];
+```
+
+```objc
 // blocks are easily readable
 [UIView animateWithDuration:1.0 animations:^{
   // something
@@ -172,11 +155,13 @@ When they are needed, comments should be used to explain **why** a particular pi
 
 Block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. *Exception: This does not apply to those comments used to generate documentation.*
 
+Rule of thumb: if you feel the need to write a comment, you probably need to create another method or name the variables better.
+
 ## Naming
 
 Apple naming conventions should be adhered to wherever possible, especially those related to [memory management rules](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html) ([NARC](http://stackoverflow.com/a/2865194/340508)).
 
-Long, descriptive method and variable names are good.
+Long, descriptive method and variable names are good. Shortcuts are not ecouraged.
 
 **Preferred:**
 
@@ -190,9 +175,7 @@ UIButton *settingsButton;
 UIButton *setBut;
 ```
 
-A three letter prefix should always be used for class names and constants, however may be omitted for Core Data entity names. For any official raywenderlich.com books, starter kits, or tutorials, the prefix 'RWT' should be used.
-
-Constants should be camel-case with all words capitalized and prefixed by the related class name for clarity.
+Constants should be camel-case with all words capitalized.
 
 **Preferred:**
 
@@ -211,7 +194,7 @@ Properties should be camel-case with the leading word being lowercase. Use auto-
 **Preferred:**
 
 ```objc
-@property (strong, nonatomic) NSString *descriptiveVariableName;
+@property (strong, nonatomic, nonnull) NSString *descriptiveVariableName;
 ```
 
 **Not Preferred:**
@@ -222,15 +205,17 @@ id varnm;
 
 ### Underscores
 
-When using properties, instance variables should always be accessed and mutated using `self.`. This means that all properties will be visually distinct, as they will all be prefaced with `self.`. 
+When using properties, instance variables should always be accessed and mutated using `self.`. This means that all properties will be visually distinct, as they will all be prefaced with `self.`.
 
-An exception to this: inside initializers, the backing instance variable (i.e. _variableName) should be used directly to avoid any potential side effects of the getters/setters.
+An exception to this: inside initializers, the backing instance variable should be used directly to avoid any potential side effects of the getters/setters.
 
 Local variables should not contain underscores.
 
 ## Methods
 
-In method signatures, there should be a space after the method type (-/+ symbol). There should be a space between the method segments (matching Apple's style).  Always include a keyword and be descriptive with the word before the argument which describes the argument.
+In method signatures, there should be a space after the method type (-/+ symbol). There should be a space between the method segments (matching Apple's style). Always include a keyword and be descriptive with the word before the argument which describes the argument.
+
+When creating a new file, methods created by the file template that are not used should be deleted. No empty methods.
 
 The usage of the word "and" is reserved.  It should not be used for multiple parameters as illustrated in the `initWithWidth:height:` example below.
 
@@ -258,7 +243,14 @@ Variables should be named as descriptively as possible. Single letter variable n
 
 Asterisks indicating pointers belong with the variable, e.g., `NSString *text` not `NSString* text` or `NSString * text`, except in the case of constants.
 
-[Private properties](#private-properties) should be used in place of instance variables whenever possible. Although using instance variables is a valid way of doing things, by agreeing to prefer properties our code will be more consistent. 
+[Private properties](#private-properties) should be used in place of instance variables whenever possible. Although using instance variables is a valid way of doing things, by agreeing to prefer properties our code will be more consistent. Also, starting from Objective-C 3.0, you can put nullable identificators for properties, thus making the code more readable an easier to understand.
+
+Apple (https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/EncapsulatingData/EncapsulatingData.html) :
+"You Can Define Instance Variables without Properties
+
+It’s best practice to use a property on an object any time you need to keep track of a value or another object.
+
+If you do need to define your own instance variables without declaring a property, you can add them inside braces at the top of the class interface or implementation."
 
 Direct access to instance variables that 'back' properties should be avoided except in initializer methods (`init`, `initWithCoder:`, etc…), `dealloc` methods and within custom setters and getters. For more information on using Accessor Methods in Initializer Methods and dealloc, see [here](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmPractical.html#//apple_ref/doc/uid/TP40004447-SW6).
 
@@ -267,7 +259,7 @@ Direct access to instance variables that 'back' properties should be avoided exc
 ```objc
 @interface RWTTutorial : NSObject
 
-@property (strong, nonatomic) NSString *tutorialName;
+@property (strong, nonatomic, nullable) NSString *tutorialName;
 
 @end
 ```
@@ -283,23 +275,21 @@ Direct access to instance variables that 'back' properties should be avoided exc
 
 ## Property Attributes
 
-Property attributes should be explicitly listed, and will help new programmers when reading the code.  The order of properties should be storage then atomicity, which is consistent with automatically generated code when connecting UI elements from Interface Builder.
+Property attributes should be explicitly listed, and will help new programmers when reading the code.  The order of properties should be storage then atomicity, which is consistent with automatically generated code when connecting UI elements from Interface Builder. The nullable identificator should be the last one listed.
 
 **Preferred:**
 
 ```objc
-@property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (strong, nonatomic) NSString *tutorialName;
+@property (strong, nonatomic, nonnull) NSString *tutorialName;
 ```
 
 **Not Preferred:**
 
 ```objc
-@property (nonatomic, weak) IBOutlet UIView *containerView;
 @property (nonatomic) NSString *tutorialName;
 ```
 
-Properties with mutable counterparts (e.g. NSString) should prefer `copy` instead of `strong`. 
+Properties with mutable counterparts (e.g. NSString) should prefer `copy` instead of `strong`.
 Why? Even if you declared a property as `NSString` somebody might pass in an instance of an `NSMutableString` and then change it without you noticing that.  
 
 **Preferred:**
@@ -431,7 +421,7 @@ switch (condition) {
   case 3:
     // ...
     break;
-  default: 
+  default:
     // ...
     break;
 }
@@ -447,7 +437,7 @@ switch (condition) {
   case 2:
     // code executed for values 1 and 2
     break;
-  default: 
+  default:
     // ...
     break;
 }
@@ -489,6 +479,72 @@ Private properties should be declared in class extensions (anonymous categories)
 @end
 ```
 
+## IBOutlets
+
+IBOutlets will always be in the .h file as strong ivars.
+
+## Generics
+
+Generics should always be used for all the classes that support them (eg. NSArray, NSDictionary, NSSet etc.), both when defined as properties or as method arguments. As for identation, there should be a space between the class type and the pointer. There shouldn't be any spaces between the class and the generics idetificator.
+
+**Preferred:**
+
+```objc
+@property (strong, nonatomic, nonnull) NSArray<NSString *> *stringsArray;
+
+- (void)foo:(nonnull NSArray<NSString *> *)stringsArray;
+
+```
+**Not Preferred:**
+
+```objc
+@property (strong, nonatomic, nonnull) NSArray *stringsArray;
+@property (strong, nonatomic, nonnull) NSArray<NSString*> *stringsArray;
+@property (strong, nonatomic, nonnull) NSArray <NSString *> *stringsArray;
+
+```
+
+## Nullable identificators
+
+Nullable identificators (nonnull, nullable) should be used for arguments only in public methods and for both public and private properties. For methods, it should be written before the argument type. For properties, it should be written as the last identificator.
+
+**Preferred:**
+
+```objc
+- (void)foo:(nonnull NSString *)bar;
+@property (nonatomic, copy, nonnull) NSString *nonNullString;
+```
+
+**Not Preferred:**
+
+```objc
+- (void)foo:(NSString * nonnull)bar;
+- (void)foo:(NSString nonnull *)bar;
+@property (nonatomic, nonnull, copy) NSString *nonnullString;
+```
+
+## Protocols
+
+Protocols can be defined either in a separate file or in an existing class header file.
+If defined in an existing header class, the protocol declaration will be before the class interface, and the definition will be after the class interface.
+Methods in the protocol will be prefixed with the protocol name, including the class as a parameter or not.
+
+**Preferred:**
+
+```objc
+@protocol barProtocol;
+
+@interface bar;
+@end;
+
+@protocol foo<NSObject>
+
+- (void)fooWillDoThis:(nullable id)this;
+
+
+@end
+```
+
 ## Booleans
 
 Objective-C uses `YES` and `NO`.  Therefore `true` and `false` should only be used for CoreFoundation, C or C++ code.  Since `nil` resolves to `NO` it is unnecessary to compare it in conditions. Never compare something directly to `YES`, because `YES` is defined to 1 and a `BOOL` can be up to 8 bits.
@@ -520,13 +576,16 @@ Text and example taken from the [Cocoa Naming Guidelines](https://developer.appl
 
 ## Conditionals
 
-Conditional bodies should always use braces even when a conditional body could be written without braces (e.g., it is one line only) to prevent errors. These errors include adding a second line and expecting it to be part of the if-statement. Another, [even more dangerous defect](http://programmers.stackexchange.com/a/16530) may happen where the line "inside" the if-statement is commented out, and the next line unwittingly becomes part of the if-statement. In addition, this style is more consistent with all other conditionals, and therefore more easily scannable.
+Conditional bodies should always use braces even when a conditional body could be written without braces (e.g., it is one line only) to prevent errors. These errors include adding a second line and expecting it to be part of the if-statement. Another, [even more dangerous defect](http://programmers.stackexchange.com/a/16530) may happen where the line "inside" the if-statement is commented out, and the next line unwittingly becomes part of the if-statement. In addition, this style is more consistent with all other conditionals, and therefore more easily scannable. If there is a conditional used for returning from a method, it can be written on the same line using braces and if they contain only a return statement.
 
 **Preferred:**
 ```objc
 if (!error) {
+  self.foo = bar;
   return success;
 }
+
+if (error) { return NO; }
 ```
 
 **Not Preferred:**
@@ -546,6 +605,10 @@ if (!error) return success;
 The Ternary operator, `?:` , should only be used when it increases clarity or code neatness. A single condition is usually all that should be evaluated. Evaluating multiple conditions is usually more understandable as an `if` statement, or refactored into instance variables. In general, the best use of the ternary operator is during assignment of a variable and deciding which value to use.
 
 Non-boolean variables should be compared against something, and parentheses are added for improved readability.  If the variable being compared is a boolean type, then no parentheses are needed.
+
+Also, this operator can be used as an "Elvis" operator.
+"result = expression ?: value_if_expression_is_null"
+In this case, "result" will have "expression"'s value, if it's not nil. Otherwise, it will get the default value.
 
 **Preferred:**
 ```objc
@@ -579,7 +642,7 @@ See [Class Constructor Methods](#class-constructor-methods) for link to article 
 
 ## Class Constructor Methods
 
-Where class constructor methods are used, these should always return type of 'instancetype' and never 'id'. This ensures the compiler correctly infers the result type. 
+Where class constructor methods are used, these should always return type of 'instancetype' and never 'id'. This ensures the compiler correctly infers the result type.
 
 ```objc
 @interface Airplane
@@ -627,9 +690,7 @@ When coding with conditionals, the left hand margin of the code should be the "g
 
 ```objc
 - (void)someMethod {
-  if (![someOther boolValue]) {
-	return;
-  }
+  if (![someOther boolValue]) { return; }
 
   //Do something important
 }
@@ -697,24 +758,9 @@ self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:pro
 ```
 A long line of code like this should be carried on to the second line adhering to this style guide's Spacing section (two spaces).
 ```objc
-self.productsRequest = [[SKProductsRequest alloc] 
+self.productsRequest = [[SKProductsRequest alloc]
   initWithProductIdentifiers:productIdentifiers];
 ```
-
-
-## Smiley Face
-
-Smiley faces are a very prominent style feature of the raywenderlich.com site!  It is very important to have the correct smile signifying the immense amount of happiness and excitement for the coding topic.  The end square bracket is used because it represents the largest smile able to be captured using ascii art.  A half-hearted smile is represented if an end parenthesis is used, and thus not preferred.
-
-**Preferred:**
-```objc
-:]
-```
-
-**Not Preferred:**
-```objc
-:)
-```  
 
 
 ## Xcode project
@@ -722,17 +768,3 @@ Smiley faces are a very prominent style feature of the raywenderlich.com site!  
 The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
 
 When possible, always turn on "Treat Warnings as Errors" in the target's Build Settings and enable as many [additional warnings](http://boredzo.org/blog/archives/2009-11-07/warnings) as possible. If you need to ignore a specific warning, use [Clang's pragma feature](http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas).
-
-# Other Objective-C Style Guides
-
-If ours doesn't fit your tastes, have a look at some other style guides:
-
-* [Robots & Pencils](https://github.com/RobotsAndPencils/objective-c-style-guide)
-* [New York Times](https://github.com/NYTimes/objective-c-style-guide)
-* [Google](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
-* [GitHub](https://github.com/github/objective-c-conventions)
-* [Adium](https://trac.adium.im/wiki/CodingStyle)
-* [Sam Soffes](https://gist.github.com/soffes/812796)
-* [CocoaDevCentral](http://cocoadevcentral.com/articles/000082.php)
-* [Luke Redpath](http://lukeredpath.co.uk/blog/my-objective-c-style-guide.html)
-* [Marcus Zarra](http://www.cimgf.com/zds-code-style-guide/)
