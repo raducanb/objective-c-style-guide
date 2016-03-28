@@ -73,6 +73,10 @@ Lifecycle methods should be in the calling order. Private methods can also be se
 
 - (void)privateMethod {}
 
+#pragma mark Requests
+
+- (void) requestMethod {}
+
 #pragma mark - UITextFieldDelegate
 #pragma mark - UITableViewDataSource
 #pragma mark - UITableViewDelegate
@@ -93,8 +97,9 @@ Lifecycle methods should be in the calling order. Private methods can also be se
 
 ## Spacing
 
-* Indent using 2 spaces (this conserves space in print and makes line wrapping less likely). Never indent with tabs. Be sure to set this preference in Xcode.
+* Indent using XCode default (4 spaces).
 * Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
+* Set page guide at column 120 (see below how to deal with exceeding this limit.
 
 **Preferred:**
 ```objc
@@ -118,7 +123,7 @@ else {
 
 * There should be exactly one blank line between methods to aid in visual clarity and organization. Whitespace within methods should separate functionality, but often there should probably be new methods.
 * Prefer using auto-synthesis. But if necessary, `@synthesize` and `@dynamic` should each be declared on new lines in the implementation.
-* Colon-aligning method invocation should often be avoided.  There are cases where a method signature may have >= 3 colons and colon-aligning makes the code more readable. Please do **NOT** however colon align methods containing blocks because Xcode's indenting makes it illegible.
+* Colon-aligning method invocation should be used if a method signature has >= 3 arguments or the length exceeds the 120 limit. Please do **NOT** however colon align methods containing blocks because Xcode's indenting makes it illegible.
 
 **Preferred:**
 
