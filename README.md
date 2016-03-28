@@ -515,7 +515,7 @@ IBActions will always be only in the .m file. It will not be called programatica
 
 ## Generics
 
-Generics should always be used for all the classes that support them (eg. NSArray, NSDictionary, NSSet etc.), both when defined as properties or as public method arguments and for private methods only if needed. As for identation, there should be a space between the class type and the pointer. There shouldn't be any spaces between the class and the generics idetificator.
+Generics should always be used for all the classes that support them (eg. NSArray, NSDictionary, NSSet etc.), both when defined as properties or as public method arguments and for private methods only if needed. As for identation, there should be a space between the class type and the pointer. There shouldn't be any spaces between the class and the generics identificator.
 
 **Preferred:**
 
@@ -559,7 +559,7 @@ Delegates, which are `weak`, will always be `nullable`.
 
 *definiti inainte de clasa daca nu e nevoie de acea clasa la arg*
 Protocols can be defined either in a separate file or in an existing class header file.
-If defined in an existing header class, the protocol declaration will be before the class interface, and the definition will be after the class interface.
+If defined in an existing header class, the protocol definition will be after the class interface only if the class is used as an argument in one of the methods.
 Methods in the protocol will be prefixed with the class name, including the class as a parameter or not.
 
 **Preferred:**
@@ -614,6 +614,7 @@ Text and example taken from the [Cocoa Naming Guidelines](https://developer.appl
 ## Conditionals
 
 Conditional bodies should always use braces even when a conditional body could be written without braces (e.g., it is one line only) to prevent errors. These errors include adding a second line and expecting it to be part of the if-statement. Another, [even more dangerous defect](http://programmers.stackexchange.com/a/16530) may happen where the line "inside" the if-statement is commented out, and the next line unwittingly becomes part of the if-statement. In addition, this style is more consistent with all other conditionals, and therefore more easily scannable. If there is a conditional used for returning from a method, it can be written on the same line using braces and if they contain only a return statement.
+If you can, all conditionals for returning from a method should be written at the beginning.
 
 **Preferred:**
 ```objc
@@ -622,7 +623,7 @@ if (!error) {
   return success;
 }
 
-if (error) { return NO; }
+if (!error) { return NO; }
 ```
 
 **Not Preferred:**
