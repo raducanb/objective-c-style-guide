@@ -557,7 +557,6 @@ Delegates, which are `weak`, will always be `nullable`.
 
 ## Protocols
 
-*definiti inainte de clasa daca nu e nevoie de acea clasa la arg*
 Protocols can be defined either in a separate file or in an existing class header file.
 If defined in an existing header class, the protocol definition will be after the class interface only if the class is used as an argument in one of the methods.
 Methods in the protocol will be prefixed with the class name, including the class as a parameter or not.
