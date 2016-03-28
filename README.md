@@ -515,7 +515,7 @@ IBActions will always be only in the .m file. It will not be called programatica
 
 ## Generics
 
-Generics should always be used for all the classes that support them (eg. NSArray, NSDictionary, NSSet etc.), both when defined as properties or as method arguments. As for identation, there should be a space between the class type and the pointer. There shouldn't be any spaces between the class and the generics idetificator.*metode publice .h si .m; metode private doar daca e nevoie; proprietati oriunde.*
+Generics should always be used for all the classes that support them (eg. NSArray, NSDictionary, NSSet etc.), both when defined as properties or as public method arguments and for private methods only if needed. As for identation, there should be a space between the class type and the pointer. There shouldn't be any spaces between the class and the generics idetificator.
 
 **Preferred:**
 
