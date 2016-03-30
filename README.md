@@ -513,6 +513,14 @@ IBOutlets will always be in the .m file as strong properties. Should not be mixe
 
 IBActions will always be only in the .m file. It will not be called programatically. If the same functionality is needed, it will pe extracted into a method that will be called from the IBAction.
 
+IBActions for `UIButton`s `Touch Up Inside` event will be named `*buttonName*ButtonPressed`
+
+**For Example:**
+
+```objc
+- (IBActions)purchaseButtonPressed:(UIButton *)sender {}
+```
+
 ## Generics
 
 Generics should always be used for all the classes that support them (eg. NSArray, NSDictionary, NSSet etc.), both when defined as properties or as public method arguments and for private methods only if needed. As for identation, there should be a space between the class type and the pointer. There shouldn't be any spaces between the class and the generics identificator.
