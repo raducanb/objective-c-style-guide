@@ -14,6 +14,7 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Comments](#comments)
 * [Naming](#naming)
   * [Underscores](#underscores)
+  * [ViewControllers](#viewcontrollers)
 * [Methods](#methods)
 * [Variables](#variables)
 * [Property Attributes](#property-attributes)
@@ -220,6 +221,25 @@ When using properties, instance variables should always be accessed and mutated 
 An exception to this: inside initializers, the backing instance variable should be used directly to avoid any potential side effects of the getters/setters.
 
 Local variables should not contain underscores.
+
+### ViewControllers
+
+ViewControllers will have the `VC` suffix and other counterparts of it will have a similar one.
+
+**Preferred:**
+
+```objc
+LoginVC
+OffersTVC // for UITableViewController
+ProductsCVC // for UICollectionViewController
+```
+
+**Not Preffered:**
+```objc
+LoginViewC
+OffersTableVC
+ProductsCollectionViewController
+```
 
 ## Methods
 
