@@ -76,7 +76,7 @@ Lifecycle methods should be in the calling order. Private methods can also be se
 
 #pragma mark Requests
 
-- (void) requestMethod {}
+- (void)requestMethod {}
 
 #pragma mark - UITextFieldDelegate
 #pragma mark - UITableViewDataSource
