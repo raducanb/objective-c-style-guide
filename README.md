@@ -389,7 +389,7 @@ static CGFloat const RWTImageThumbnailHeight = 50.0;
 ```
 
 ```objc
-static NSDictionary<NSNumber *, UIColor *>* kColorForStatesDictionary;
+static NSDictionary<NSNumber *, UIColor *> *kColorForStatesDictionary;
 
 + (void)initialize
 {
