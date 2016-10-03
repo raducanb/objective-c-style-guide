@@ -274,6 +274,7 @@ Variables should be named as descriptively as possible. Single letter variable n
 Asterisks indicating pointers belong with the variable, e.g., `NSString *text` not `NSString* text` or `NSString * text`, except in the case of constants.
 
 **Weak self:**
+
 When we need to weakify self, we'll use `typeof` keyword instead of hardcoded class
 
 ```objc
