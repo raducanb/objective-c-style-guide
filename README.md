@@ -273,6 +273,13 @@ Variables should be named as descriptively as possible. Single letter variable n
 
 Asterisks indicating pointers belong with the variable, e.g., `NSString *text` not `NSString* text` or `NSString * text`, except in the case of constants.
 
+** Weak self: **
+When we need to weakify self, we'll use `typeof` keyword instead of hardcoded class
+
+```objc
+__weak typeof(self) weakSelf = self;
+```
+
 [Private properties](#private-properties) should be used in place of instance variables whenever possible. Although using instance variables is a valid way of doing things, by agreeing to prefer properties our code will be more consistent. Also, starting from Objective-C 3.0, you can put nullable identificators for properties, thus making the code more readable an easier to understand.
 
 Apple (https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/EncapsulatingData/EncapsulatingData.html) :
